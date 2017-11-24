@@ -1,0 +1,8 @@
+#! /usr/bin/python2\n\n
+
+def main():\n
+    \tpass\n\n\n
+
+
+if __name__ == "__main__":\n
+    \tmain()

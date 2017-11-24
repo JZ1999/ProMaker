@@ -1,0 +1,14 @@
+<!DOCTYPE html>\n\n
+
+<html>\n
+\t<head>\n\n
+
+\t<link rel="stylesheet" type="text/css" href="assets/css/index.css"/>\n
+\t<script href="assets/js/index.js"></script>\n\n
+
+\t</head>\n\n
+
+\t<body>\n\n
+
+\t</body>\n
+</html>

@@ -1,0 +1,266 @@
+#! /bin/bash
+
+Action=$1
+Name=$2
+Headers=""
+if [ "$1" == "-c" ] && [ "$2" ]
+then
+
+    #Checking if Proyects folder exists
+    if [ ! -d ~/Proyects ]
+    then
+        echo "Created Proyects folder..."
+        mkdir ~/Proyects
+    fi
+
+    echo "Type Promaker -h for help"
+    read -p "Proyect type: " proType
+
+    #Checks proType to see which type of project will be made
+    if [[ $proType == 'python3' ]]
+    then
+        cd ~/Proyects/
+        if [ ! "$3" == "-nv" ];then
+            virtualenv -p /usr/bin/python3 $Name
+            Headers="$Headers 'virtualenv'"
+            cd $Name
+            mkdir Code
+            cd Code
+        else
+            mkdir $Name
+            cd $Name
+        fi
+        echo -e $(cat ${0%/*r}/templates/python3.txt) >> main.py
+        if [ ! "$3" == "-ng" ]
+        then
+            git init
+            echo $Name >> README.md
+            Headers="$Headers 'git'"
+        fi
+        mkdir assets
+        saves=${0%/*r}
+        report="\nName: $Name  \nType: python3  \nDate: $(date)\nHeaders: $Headers\n"
+        echo "============================================" >> $saves/saves.txt
+        echo -e $report >> $saves/saves.txt
+        echo "============================================" >> $saves/saves.txt
+        echo -e "Finished... Check ProMaker -l to take a look\nat your new proyect"
+    elif [[ $proType == 'python2' ]]
+    then
+        cd ~/Proyects/
+        if [ ! "$3" == "-nv" ];then
+            virtualenv -p /usr/bin/python2 $Name
+            Headers="$Headers 'virtualenv'"
+            cd $Name
+            mkdir Code
+            cd Code
+        fi
+        echo -e $(cat ${0%/*r}/templates/python2.txt) >> main.py
+        if [ ! "$3" == "-ng" ]
+        then
+            git init
+            echo $Name >> README.md
+        fi
+        mkdir assets
+        saves=${0%/*r}
+        report="\nName: $Name  \nType: python2  \nDate: $(date)\nHeaders: $Headers\n"
+        echo "============================================" >> $saves/saves.txt
+        echo -e $report >> $saves/saves.txt
+        echo "============================================" >> $saves/saves.txt
+        echo -e "Finished... Check ProMaker -l to take a look\nat your new proyect"
+    elif [[ $proType == 'html' ]]
+    then
+        cd ~/Proyects/
+        mkdir $Name
+        cd $Name
+        if [ ! "$3" == "-ng" ]
+        then
+            git init
+            echo $Name >> README.md
+            Headers="$Headers 'git'"
+        fi
+        mkdir assets
+        mkdir assets/css
+        mkdir assets/js
+        mkdir assets/img
+        mkdir assets/sounds
+        mkdir assets/misc
+        touch assets/css/index.css
+        touch assets/js/index.js
+        if [ ! "$3" == "-npl" ];then
+            killall python
+            killall php
+            python -m SimpleHTTPServer & disown
+            Header="$Headers 'python http server'"
+            echo -e $(cat ${0%/*r}/templates/html.txt) >> index.htm 
+        fi
+        if [ "$4" == "-php" ];then
+            killall python
+            killall php
+            php -S 127.0.0.1:9000 & disown
+            Header="$Headers 'php http server'"
+            echo $Headers
+            echo -e $(cat ${0%/*r}/templates/html.txt) >> index.php 
+        fi
+        saves=${0%/*r}
+        report="\nName: $Name  \nType: html  \nDate: $(date)\nHeaders: $Headers\n"
+        echo "============================================" >> $saves/saves.txt
+        echo -e $report >> $saves/saves.txt
+        echo "============================================" >> $saves/saves.txt
+        echo -e "Finished... Check ProMaker -l to take a look\nat your new proyect"
+    elif [[ $proType == 'java' ]]
+    then
+        cd ~/Proyects/
+        mkdir $Name
+        cd $Name
+        echo -e $(cat ${0%/*r}/templates/java.txt) >> main.java
+        if [ ! "$3" == "-ng" ]
+        then
+            git init
+            echo $Name >> README.md
+            Headers="$Headers 'git'"
+        fi
+        mkdir assets
+        saves=${0%/*r}
+        report="\nName: $Name  \nType: java  \nDate: $(date)\nHeaders: $Headers\n"
+        echo "============================================" >> $saves/saves.txt
+        echo -e $report >> $saves/saves.txt
+        echo "============================================" >> $saves/saves.txt
+        echo -e "Finished... Check ProMaker -l to take a look\nat your new proyect"
+    elif [[ $proType == 'notes' ]]
+    then
+        cd ~/Proyects/
+        mkdir $Name
+        cd $Name
+        if [ ! "$3" == "-ng" ]
+        then
+            git init
+            echo $Name >> README.md
+            Headers="$Headers 'git'"
+        fi
+        echo "$(date)" >> Notes.md
+        echo "Class: " >> Notes.md
+        echo "Prof. : " >> Notes.md
+        saves=${0%/*r}
+        report="\nName: $Name  \nType: java  \nDate: $(date)\nHeaders: $Headers\n"
+        echo "============================================" >> $saves/saves.txt
+        echo -e $report >> $saves/saves.txt
+        echo "============================================" >> $saves/saves.txt
+        echo -e "Finished... Check ProMaker -l to take a look\nat your new proyect"
+    elif [[ $proType == 'custom' ]]
+    then
+        cd ~/Proyects/
+        echo "Choose the options you wish with 'y' or 'n'"
+        read -p "Git: " git
+        read -p "Virtualenv: " venv
+        read -p "Notes: " notes
+        read -p "Python http server: " py
+        read -p "PHP http server: " php
+        read -p "Python3: " py3
+        read -p "Python2: " py2
+        read -p "Java: " java
+        read -p "Standard assets html folders: " assets
+        if [ "$assets" == "y" ];then
+            read -p "Standard html files: " html
+        fi
+        if [ "$venv" == "y" ];then
+            virtualenv -p /usr/bin/python2 $Name
+            Headers="$Headers 'virtualenv'"
+            cd $Name
+            mkdir Code
+            cd Code
+        else
+            mkdir $Name
+            cd $Name
+        fi
+        if [ "$notes" == "y" ];then
+            echo "$(date)" >> Notes.md
+            echo "Class: " >> Notes.md
+            echo "Prof: " >> Notes.md
+        fi
+        if [ "$py3" == "y" ];then
+            echo -e $(cat ${0%/*r}/templates/python3.txt) >> main1.py
+        fi
+        if [ "$py2" == "y" ];then
+            echo -e $(cat ${0%/*r}/templates/python2.txt) >> main2.py
+        fi
+        if [ "$java" == "y" ];then
+            echo -e $(cat ${0%/*r}/templates/java.txt) >> main.java
+        fi
+        if [ "$git" == "y" ];then
+            git init
+            echo $Name >> README.md
+            Headers="$Headers 'git'"
+        fi
+        if [ "$py" == "y" ];then
+            killall python
+            python -m SimpleHTTPServer & disown
+            Header="$Headers 'python http server'"
+            echo -e $(cat ${0%/*r}/templates/html.txt) >> index.htm 
+        fi
+        if [ "$php" == "y" ];then
+            killall php
+            php -S 127.0.0.1:9000 & disown
+            Header="$Headers 'php http server'"
+            echo $Headers
+            rm index.htm 
+            echo -e $(cat ${0%/*r}/templates/html.txt) >> index.php 
+        fi
+        if [ "$assets" == "y" ];then
+            mkdir assets
+            mkdir assets/css
+            mkdir assets/js
+            mkdir assets/img
+            mkdir assets/sounds
+            mkdir assets/misc
+        fi
+        if [ "$html" == "y" ];then
+            touch assets/css/index.css
+            touch assets/js/index.js
+        fi
+        saves=${0%/*r}
+        report="\nName: $Name  \nType: java  \nDate: $(date)\nHeaders: $Headers\n"
+        echo "============================================" >> $saves/saves.txt
+        echo -e $report >> $saves/saves.txt
+        echo "============================================" >> $saves/saves.txt
+        echo -e "Finished... Check ProMaker -l to take a look\nat your new proyect"
+    else
+        echo "Value Error: Error type Type ProMaker -h for help"
+    fi
+#-l Listing the projects
+elif [ "$1" == "-l" ]
+then
+    #checking if saves.txt exists
+    if [ -e ${0%/*r}/saves.txt ];then
+        less ${0%/*r}/saves.txt
+    else
+        echo -e "There are no saved proyects in the saves.txt file\nor the file does not exist"
+    fi
+#Resets the saved proyects
+elif [ "$1" == "-r" ]
+then
+   dir=${0%/*r} 
+   read -p "Are you sure you want to reset the saves.txt file which has your proyects saved?" ans
+   if [ "$ans" == "yes" ]
+   then
+       rm $dir/saves.txt
+   elif [ "$ans" == "no" ]
+   then
+       echo "Cancelled"
+   else
+       echo "Incorrect option"
+   fi
+elif [ "$1" == "-stop" ]
+then
+    killall python
+    killall php
+else
+    #Doing a less help.txt
+    dir=${0#.*/}
+    if [[ $dir =~ /+ ]]
+    then
+        newdir=${dir%/*r}
+        less $newdir/help.txt
+    else
+        less ./help.txt
+    fi
+fi

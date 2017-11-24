@@ -1,0 +1,73 @@
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~ PROMAKER~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+INFO:
+
+ProMaker is used to help you make Proyects and manage them on the fly.
+Disclaimer: You must have python2.x, python3.x, php7, lampp, git and mercurial installed in order to have its corresponding functions.
+
+When you enter ProMaker -c <Proyect> you will be prompted with a Proyect type, the options are;
+
+-python3
+-python2
+-java
+-html
+-notes
+-custom
+
+The custom option lets you pick from a variety of options to add to your proyect
+
+FLAGS:
+
+-h: Help
+
+-d <Proyect Name>: Delete a proyect
+
+-c <Proyect Name>: Create a proyect
+Using the -c flag you can also use additional
+flags to customize the creation of the proyect
+
+-l: to list your Proyects
+
+-r: Erase the saves.txt resetting your saved proyects
+
+-stop: Stops any http servers made with python or php
+
+ADDITIONAL FLAGS:
+
+Use these flags in conjunction with -c
+
+-ng: Do not git init
+
+-nv: Do not start a virtualenv
+
+-npl: Do not start a python localhost
+
+-php: Start a php server
+
+-lam: Start lampp 
+
+-hg: Start mercurial init
+
+NOTES:
+
+-When starting a new proyect ProMaker by default stop any python or php http server, if you choose the option with a flag, if you choose a pythonx proyect or if you choose the option in the custom prompts.
+
+-To stop the servers you can use ProMaker -stop or do it manually with 'killall python' and 'killall php'
+
+-In python3 and python2 if you use the virtualenv option, you will see a Code directory where you will find an initial setup so you can begin to code
+
+-You have to manually activate the virtualenv with "source activate" activate is in the bin directory
+
+EXAMPLES:
+
+ProMaker -c Minesweeper
+
+ProMaker -c WebScraper -nv
+
+ProMaker -d Portfolio
+
+ProMaker -c company -php -hg
+
+ProMaker -l
+
+ProMaker -c MyWebsite -ng -npl
